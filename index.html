@@ -3,13 +3,25 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Muziek Checklist</title>
+<title>Muziekchecklist</title>
 <style>
-body{font-family:Arial;background:#f5f7fb;padding:16px;}
+body{
+  font-family: Arial;
+  background:#f5f7fb;
+  padding:16px;
+}
 h2{margin-top:20px;}
-.item{background:#fff;border:1px solid #ddd;border-radius:8px;padding:10px;margin-bottom:6px;display:flex;align-items:center;}
-.item input{margin-right:10px;transform:scale(1.2);}
-.done{text-decoration:line-through;color:#888;}
+.item{
+  background:#fff;
+  border:1px solid #ddd;
+  border-radius:8px;
+  padding:10px;
+  margin-bottom:6px;
+  display:flex;
+  align-items:center;
+}
+.item input{margin-right:10px; transform:scale(1.2);}
+.done{text-decoration:line-through; color:#888;}
 </style>
 </head>
 <body>
@@ -23,39 +35,71 @@ h2{margin-top:20px;}
 <div id="inleveren"></div>
 
 <script>
-const houden = ['Call of the Cossacks', 'Discoduction', 'The Dreaded Groove and Hook', 'Hunting Wabbits', 'Illusion', 'In the Stone', 'Jubilee', 'Meditation', 'Vita Aeterna Variations'];
-const inleveren = ['Activate', 'Alle Duiven op de Dam', 'Banksy', 'Black Orpheus', 'Bridge over Troubled Water', 'A Christmas Festival', 'Christmas Lullaby', 'Defying Gravity', 'Family Portraits (Lowry Sketchbook)', 'Gaudete', 'Give it one', 'Gonna Fly Now', 'Graduation Day', 'Here I am, Lord', 'Hercab', 'Homage to Julian Assange', 'Hope', 'Immortal Bach', 'Into the Unknown', 'Keighly Moor', 'King all Glorious', 'Live and Let Die', 'Lullabye', 'Nearer my God to Thee', 'O Holy Night', 'O Salutaris Hostia', 'Only in Sleep', 'Over the Rainbow', 'Pasmo', 'Requiem', 'Rococo Variations', 'Silent Night', 'Simoraine', 'Sleighride', 'Softly Softly', 'Sotscop', 'Stars', 'Stop the Cavalry', 'Storm', 'Suite from Maria de Buenos Aires', 'The Bells of Christmas', 'The Day thou Gavest', 'The Snowman', 'The Spirit of Christmas', 'The Wonder of Christmas (festive March)', 'Trumpet Concerto', 'Valley of the Pinios', 'When you Wish upon a Star', 'Where Angels Fly', 'Zero to Hero'];
+const houden = [
+"Call of the Cossacks",
+"Discoduction",
+"The Dreaded Groove and Hook",
+"Hunting Wabbits",
+"Illusion",
+"In the Stone",
+"Jubilee",
+"Meditation",
+"Vita Aeterna Variations"
+];
 
-const key="checklist_final";
-let state=JSON.parse(localStorage.getItem(key)||"{}");
+const inleveren = [
+"Activate","A Christmas Festival","Alle Duiven op de Dam","Banksy","Black Orpheus",
+"Bridge over Troubled Water","Christmas Lullaby","Defying Gravity",
+"Family Portraits (Lowry Sketchbook)","Gaudete","Give it one","Gonna Fly Now",
+"Graduation Day","Here I am, Lord","Hercab","Homage to Julian Assange","Hope",
+"Immortal Bach","Into the Unknown","Keighly Moor","King all Glorious",
+"Live and Let Die","Lullabye","Nearer my God to Thee","O Holy Night",
+"O Salutaris Hostia","Only in Sleep","Over the Rainbow","Pasmo","Requiem",
+"Rococo Variations","Silent Night","Simoraine","Sleighride","Softly Softly",
+"Sotscop","Stars","Stop the Cavalry","Storm",
+"Suite from Maria de Buenos Aires","The Bells of Christmas",
+"The Day thou Gavest","The Snowman","The Spirit of Christmas",
+"The Wonder of Christmas (festive March)","Trumpet Concerto",
+"Valley of the Pinios","When you Wish upon a Star",
+"Where Angels Fly","Zero to Hero"
+];
 
-function save(){localStorage.setItem(key,JSON.stringify(state));}
+const key = "muziekchecklist";
+let state = JSON.parse(localStorage.getItem(key) || "{}");
 
-function render(arr,id){
-  const el=document.getElementById(id);
-  el.innerHTML="";
-  arr.forEach(t=>{
-    const d=document.createElement("div");
-    d.className="item";
-    const cb=document.createElement("input");
-    cb.type="checkbox";
-    cb.checked=state[t]||false;
-    const span=document.createElement("span");
-    span.textContent=t;
+function save(){
+  localStorage.setItem(key, JSON.stringify(state));
+}
+
+function render(list, id){
+  const el = document.getElementById(id);
+  el.innerHTML = "";
+  list.forEach(title=>{
+    const div = document.createElement("div");
+    div.className = "item";
+
+    const cb = document.createElement("input");
+    cb.type = "checkbox";
+    cb.checked = state[title] || false;
+
+    const span = document.createElement("span");
+    span.textContent = title;
     if(cb.checked) span.classList.add("done");
-    cb.onchange=()=>{
-      state[t]=cb.checked;
+
+    cb.onchange = ()=>{
+      state[title] = cb.checked;
       save();
-      span.classList.toggle("done",cb.checked);
+      span.classList.toggle("done", cb.checked);
     };
-    d.appendChild(cb);
-    d.appendChild(span);
-    el.appendChild(d);
+
+    div.appendChild(cb);
+    div.appendChild(span);
+    el.appendChild(div);
   });
 }
 
-render(houden,"houden");
-render(inleveren,"inleveren");
+render(houden, "houden");
+render(inleveren, "inleveren");
 </script>
 
 </body>
